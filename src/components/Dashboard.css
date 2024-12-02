@@ -1,0 +1,103 @@
+.dashboard {
+    background-color: #161b22; /* Matrix-like dark background */
+    color: #00ff00; /* Neon green text */
+    padding: 20px;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid #00ff00;
+    padding-bottom: 10px;
+  }
+  
+  .info-board {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .info-card {
+    background-color: #21262d;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 5px;
+    width: 400px;    
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  .detailsbox {
+    height: 200px;
+    overflow-y: scroll;
+  }
+  
+  .info-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+  
+  .info-card p {
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+  
+  .info-card strong {
+    color: #00ff00;
+  }
+
+  /* Geolocation Section */
+.geolocation-container {
+  display: flex;
+  justify-content: center; /* Centering the Geolocation card */
+  margin-top: 20px;
+}
+
+.geolocation-card {
+  background-color: #21262d; /* Different background color for geolocation */
+  padding: 20px;
+  width: 90%; /* Larger width for geolocation */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+.geolocation-card h3 {
+  font-size: 1.8rem;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 400px;  /* This should be fixed to ensure proper map size */
+  border-radius: 8px;  /* Optional for rounded corners */
+}
+
+.map-popup {
+  font-size: 12px;
+}
+
+
+/* Responsiveness: Stack the columns vertically on smaller screens */
+@media (max-width: 768px) {
+  .info-board {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info-card {
+    width: 90%;
+    margin-bottom: 15px;
+  }
+
+  /* Adjust the Geolocation card width for smaller screens */
+  .geolocation-container {
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .geolocation-card {
+    width: 90%; /* Take up most of the screen width on smaller devices */
+  }
+}
+  
