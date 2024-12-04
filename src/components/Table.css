@@ -1,0 +1,132 @@
+/* Container for the tables */
+.table-container {
+    margin: 20px auto;
+    max-width: 90%;
+    overflow-y: auto; 
+    color: #00ff00;
+    border-radius: 10px; 
+    background-color: #161b22; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); 
+    padding: 10px;
+}
+
+/* Title for both tables */
+.table-title {
+    color: #00ff00;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-align: left; 
+    font-weight: bold;
+    border-bottom: 2px solid #00ff00;
+    padding-bottom: 5px;
+}
+
+/* Main table styles */
+table {
+    width: 100%; 
+    border-collapse: collapse; /* Remove gaps between table cells */
+    color: #00ff00;
+}
+
+/* Table header */
+th {
+    background-color: #21262d;
+    color: #00ff00;
+    font-weight: bold;
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 2px solid #30363d; /* Divider line under header */
+}
+
+/* Table body cells */
+td {
+    padding: 10px 15px; /* Spacing inside cells */
+    color: #c9d1d9;
+    border-bottom: 1px solid #30363d; /* Cell dividers */
+}
+
+/* Alternating row colors for readability */
+tr:nth-child(even) {
+    background-color: #21262d; /* Slightly darker for alternating rows making the whole table go easy on the eyes */
+}
+
+tr:nth-child(odd) {
+    background-color: #161b22;
+}
+
+/* Row hover effect */
+tr:hover {
+    background-color: #30363d; /* Lighter shade for hover */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Positive change values in green */
+.positive {
+    color: #00ff00; /* Green text for positive changes */
+    font-weight: bold;
+}
+
+/* Negative change values in red */
+.negative {
+    color: #ff4500; /* Red text for negative changes */
+    font-weight: bold;
+}
+
+/* Scrollbar styling for the table container */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #00ff00;
+    border-radius: 5px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #161b22;
+}
+
+
+/* Loading Spinner */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Fill the whole viewport */
+    background-color: #161b22; /* Dark background */
+    color: #00ff00; /* Neon green text */
+}
+  
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #00ff00;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+
+/* Currency selector */
+.currency-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+  
+.currency-controls select,
+.currency-controls input {
+    background-color: #21262d;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    padding: 5px;
+    border-radius: 5px;
+}  

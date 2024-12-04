@@ -1,0 +1,113 @@
+body {
+  background-color: #161b22;
+  color: #c9d1d9; 
+  font-family: Arial, sans-serif;
+
+  background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.app {
+  text-align: center;
+  padding: 20px;
+}
+
+.title {
+  color: #00ff00;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+
+.table-container {
+  margin: 20px auto;
+  max-width: 90%;
+  overflow-y: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  border: 1px solid #30363d;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #161b22;
+  color: #00ff00;
+}
+
+tr:nth-child(even) {
+  background-color: #21262d;
+}
+
+tr:hover {
+  background-color: #30363d;
+}
+
+.positive {
+  color: #00ff00;
+}
+
+.negative {
+  color: #ff4500;
+}
+
+/* Scrollbar Customization */
+/* Custom scrollbar for the entire page */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00ff00; 
+  border-radius: 5px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #161b22;
+}
+
+
+.dashboard-btn {
+  position: fixed;
+  top: 20px; 
+  right: 20px;
+  background-color: #181818; 
+  color: #00cc00; 
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 999;
+}
+
+.dashboard-btn:hover {
+  color: #ffffff;
+  background-color: #00cc00;
+  transform: translateY(-5px);
+}
+
