@@ -120,7 +120,7 @@ const CryptoTable = () => {
             <tr key={coin.id}>
               <td>{coin.name}</td>
               <td>{coin.symbol?.toUpperCase() || "N/A"}</td>
-              <td>${coin.current_price.toLocaleString()}</td>
+              <td>${formatNumber(coin.current_price)}</td>
               <td className={coin.price_change_percentage_24h > 0 ? "positive" : "negative"}>
                 {coin.price_change_percentage_24h ? coin.price_change_percentage_24h.toFixed(2) : "N/A"}%
               </td>

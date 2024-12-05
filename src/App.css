@@ -111,3 +111,15 @@ tr:hover {
   transform: translateY(-5px);
 }
 
+/* On smaller screens, place button at the bottom */
+@media (max-width: 768px) {
+  .dashboard-btn {
+    width: 300wv; /* Make the button full width on smaller screens */
+    position: fixed;
+    top: 90%;
+    bottom: 20px; /* Stick to the bottom of the screen */
+    right: 5%; /* Align with the left edge */
+    margin: 0; /* Remove margins */
+    border-radius: 0; /* Make the button span across the width of the screen */
+  }
+}

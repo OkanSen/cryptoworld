@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./Table.css";
 import formatNumber from "./formatNumber";
 import currencyNames from "./CurrencyNames";
 
 const CurrencyTable = () => {
-  const [currencyData, setCurrencyData] = useState({});
+  const [currencyData, setCurrencyData] = useState({}); // Raw rates relative to USD
   const [baseCurrency, setBaseCurrency] = useState("USD"); // Default base currency
   const [amount, setAmount] = useState(1); // Amount to convert, default to 1
   const [lastUpdated, setLastUpdated] = useState(null);
@@ -12,7 +12,7 @@ const CurrencyTable = () => {
   const [isFirstLoad, setIsFirstLoad] = useState(true); // Track if it's the first load
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null }); // Sort state
 
-  const API_URL = "https://api.exchangerate-api.com/v4/latest/USD";
+  const API_URL = "https://api.exchangerate-api.com/v4/latest/USD"; // Fetching data based on USD rates
 
   // Fetch data from the API
   const fetchCurrencyData = async () => {
@@ -22,7 +22,17 @@ const CurrencyTable = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setCurrencyData(data.rates);
+
+        // Enrich the data with currency names without changing the object structure
+        const enrichedData = {};
+        for (const [currency, rate] of Object.entries(data.rates)) {
+          enrichedData[currency] = {
+            rate: rate, // Store rate relative to USD
+            name: currencyNames[currency] || "Unknown Currency", // Use currencyNames to get the name
+          };
+        }
+        console.log(enrichedData);
+        setCurrencyData(enrichedData); // Set the enriched data in the state
         setLastUpdated(new Date().toLocaleTimeString());
       } else {
         throw new Error("Failed to fetch data");
@@ -43,26 +53,32 @@ const CurrencyTable = () => {
     return () => clearInterval(interval); // Clean up interval
   }, []);
 
-  // Compute rates for the selected base currency
-  const computeRates = (base) => {
+  // Compute the converted rates relative to the selected base currency
+  const computeConvertedRates = (base) => {
     if (!currencyData[base]) return {};
-    const rates = {};
-    for (const [currency, rate] of Object.entries(currencyData)) {
-      rates[currency] = rate / currencyData[base];
+
+    const baseRate = currencyData[base].rate;
+    const convertedRates = {};
+
+    // Calculate rates relative to the selected base currency
+    for (const [currency, { rate }] of Object.entries(currencyData)) {
+      convertedRates[currency] = rate / baseRate;
     }
-    return rates;
+    return convertedRates;
   };
 
-  const rates = computeRates(baseCurrency);
+  const convertedRates = useMemo(() => computeConvertedRates(baseCurrency), [baseCurrency, currencyData]);
 
-  // Sorting logic
-  const sortedRates = React.useMemo(() => {
-    if (sortConfig.key === null) return Object.entries(rates);
+  // Sorting logic based on the displayed (converted) rates
+  const sortedRates = useMemo(() => {
+    if (sortConfig.key === null) return Object.entries(currencyData);
 
-    const sorted = [...Object.entries(rates)];
+    const sorted = [...Object.entries(currencyData)];
     sorted.sort((a, b) => {
-      const valueA = sortConfig.key === "currency" ? a[0] : a[1];
-      const valueB = sortConfig.key === "currency" ? b[0] : b[1];
+      const valueA =
+        sortConfig.key === "currency"  ? a[0] : sortConfig.key === "converted" ? convertedRates[a[0]] : a[1][sortConfig.key];
+      const valueB =
+        sortConfig.key === "currency"  ? b[0] : sortConfig.key === "converted"  ? convertedRates[b[0]] : b[1][sortConfig.key];
 
       if (valueA < valueB) return sortConfig.direction === "asc" ? -1 : 1;
       if (valueA > valueB) return sortConfig.direction === "asc" ? 1 : -1;
@@ -70,8 +86,11 @@ const CurrencyTable = () => {
     });
 
     return sorted;
-  }, [rates, sortConfig]);
+  }, [currencyData, convertedRates, sortConfig]);
 
+  // Handle sorting logic
+  // First sort is in ascending order, second is in descending,
+  // Third sort resets the sorting to default order.
   const handleSort = (key) => {
     setSortConfig((prevConfig) => {
       if (prevConfig.key === key) {
@@ -85,8 +104,6 @@ const CurrencyTable = () => {
     });
   };
 
-
-
   if (loading && isFirstLoad) {
     return (
       <div className="loading">
@@ -95,7 +112,8 @@ const CurrencyTable = () => {
       </div>
     );
   }
-
+  
+  // Table rendering: Render currency, name, rate, and converted values
   return (
     <div className="table-container" id="currency-section">
       <div className="currency-controls">
@@ -103,7 +121,7 @@ const CurrencyTable = () => {
         <select
           id="baseCurrency"
           value={baseCurrency}
-          onChange={(e) => setBaseCurrency(e.target.value)}
+          onChange={(e) => setBaseCurrency(e.target.value)} // Update base currency selection
         >
           {Object.keys(currencyData).map((currency) => (
             <option key={currency} value={currency}>
@@ -117,7 +135,7 @@ const CurrencyTable = () => {
           id="amount"
           type="number"
           value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
+          onChange={(e) => setAmount(Number(e.target.value))} // Update amount entered by the user
         />
       </div>
 
@@ -134,18 +152,18 @@ const CurrencyTable = () => {
         <thead>
           <tr>
             <th onClick={() => handleSort("currency")}>Currency</th>
-            <th onClick={() => handleSort("currency_name")}>Name</th>
+            <th onClick={() => handleSort("name")}>Name</th>
             <th onClick={() => handleSort("rate")}>Rate</th>
             <th onClick={() => handleSort("converted")}>Converted</th>
           </tr>
         </thead>
         <tbody>
-          {sortedRates.map(([currency, rate]) => (
+          {sortedRates.map(([currency, { rate, name }]) => (
             <tr key={currency}>
-              <td >{currency}</td>
-              <td>{currencyNames[currency] || "Unknown Currency"}</td>
-              <td>{formatNumber(rate)}</td>
-              <td>{formatNumber(rate * amount)}</td>
+              <td>{currency}</td>
+              <td>{name}</td>
+              <td>{rate ? formatNumber(rate) : "N/A"}</td>
+              <td>{rate ? formatNumber(convertedRates[currency] * amount) : "N/A"}</td> {/* Conversion to the selected base currency */}
             </tr>
           ))}
         </tbody>
