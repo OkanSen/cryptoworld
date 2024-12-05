@@ -24,6 +24,7 @@ const CurrencyTable = () => {
         const data = await response.json();
 
         // Enrich the data with currency names without changing the object structure
+        // raw values must be kept to calculate rate values
         const enrichedData = {};
         for (const [currency, rate] of Object.entries(data.rates)) {
           enrichedData[currency] = {
@@ -41,7 +42,7 @@ const CurrencyTable = () => {
       console.error("Error fetching currency data:", error);
     } finally {
       if (isFirstLoad) {
-        setIsFirstLoad(false); // Mark first load as completed
+        setIsFirstLoad(false);
       }
       setLoading(false);
     }
@@ -112,7 +113,21 @@ const CurrencyTable = () => {
       </div>
     );
   }
-  
+
+  const handleAmountChange = (e) => {
+    let value = e.target.value;
+
+    // If the input starts with '0' and has more than one digit, remove the leading zero
+    if (value.startsWith('0') && value.length > 1) {
+      value = value.slice(1); // Remove the first character (the leading zero)
+    }
+
+    // Check if the value is a valid number
+    if (value === '' || !isNaN(value)) {
+      setAmount(value); // Only update if it's a valid number or an empty string
+    }
+  };
+
   // Table rendering: Render currency, name, rate, and converted values
   return (
     <div className="table-container" id="currency-section">
@@ -135,7 +150,7 @@ const CurrencyTable = () => {
           id="amount"
           type="number"
           value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))} // Update amount entered by the user
+          onChange={handleAmountChange} // Update amount entered by the user
         />
       </div>
 

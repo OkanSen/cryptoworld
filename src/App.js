@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from "react-router-dom";
-import CryptoTable from "./components/CryptoTable"; // Your existing CryptoTable
-import CurrencyTable from "./components/CurrencyTable"; // Your existing CurrencyTable
-import Dashboard from "./components/Dashboard"; // The new Dashboard page
-import Widget from "./components/Widget"; // Importing the Widget component
-import "./App.css"; // Import your global styles
+import CryptoTable from "./components/CryptoTable";
+import CurrencyTable from "./components/CurrencyTable";
+import Dashboard from "./components/Dashboard";
+import Widget from "./components/Widget";
+import "./App.css";
 
 const RedirectButton = () => {
-  const location = useLocation(); // React Router hook to get the current location
+  const location = useLocation();
 
   // Determine button text and route dynamically
   const buttonText = location.pathname === "/dashboard" ? "Go To Main Page" : "Go To Dashboard";

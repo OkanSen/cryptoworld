@@ -6,7 +6,7 @@ import NetworkDetailsComponent from "./NetworkDetailsComponent";
 import CookiesComponent from "./CookiesComponent";
 import FingerprintComponent from "./FingerprintComponent";
 
-
+// Gather all components on dashboard component for a better structure
 const Dashboard = () => {
   return (
     <div className="dashboard">

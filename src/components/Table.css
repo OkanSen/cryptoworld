@@ -45,9 +45,13 @@ td {
     border-bottom: 1px solid #30363d; /* Cell dividers */
 }
 
+th, td {
+    min-width: 100px; /* Adjust width to prevent breaking */
+}
+
 /* Alternating row colors for readability */
 tr:nth-child(even) {
-    background-color: #21262d; /* Slightly darker for alternating rows making the whole table go easy on the eyes */
+    background-color: #21262d;
 }
 
 tr:nth-child(odd) {

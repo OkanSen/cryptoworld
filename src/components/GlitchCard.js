@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./Dashboard.css"; // Assuming styles are here
+import "./Dashboard.css";
 
+// Left unused. Was an idea for subtle periodic glitch effects
 const GlitchCard = ({ children }) => {
   const [glitch, setGlitch] = useState(false);
 

@@ -67,8 +67,6 @@ const CryptoTable = () => {
     });
   };
 
-  
-
   useEffect(() => {
     // Initial data fetch
     fetchCryptoData();
@@ -121,7 +119,7 @@ const CryptoTable = () => {
               <td>{coin.name}</td>
               <td>{coin.symbol?.toUpperCase() || "N/A"}</td>
               <td>${formatNumber(coin.current_price)}</td>
-              <td className={coin.price_change_percentage_24h > 0 ? "positive" : "negative"}>
+              <td className={coin.price_change_percentage_24h > 0 ? "positive" : "negative"}> {/* conditional rendering depending on value being pos. or neg.*/}
                 {coin.price_change_percentage_24h ? coin.price_change_percentage_24h.toFixed(2) : "N/A"}%
               </td>
               <td>${formatNumber(coin.market_cap)}</td>
